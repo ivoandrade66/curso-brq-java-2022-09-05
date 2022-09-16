@@ -1,10 +1,9 @@
-
 public class P1PRF {
 
 	public static void main(String[] args) {
 		// P1PRF EXERCIO CALCULA PASCOA  DA PARTE 01 DA APOSTILA PAG 52
 		
-		int ANO = 2022;
+		int ANO = 2023;
 		int a = ANO % 19;
 		int b = ANO / 100;
 		int c = ANO % 100;
