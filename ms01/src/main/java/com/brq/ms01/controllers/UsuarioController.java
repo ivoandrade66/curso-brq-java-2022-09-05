@@ -13,4 +13,11 @@ public class UsuarioController {
     public String getAllUsuarios(){
         return "GET Usuarios";
     }
+
+    @GetMapping("nomes")
+
+    public String getAllNomes() {
+        return "Ivo, Valeria, Giovana e Sophia";
+    }
+
 }
