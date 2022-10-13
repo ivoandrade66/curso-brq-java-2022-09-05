@@ -1,23 +1,56 @@
+
+Skip to content
+Pull requests
+Issues
+Marketplace
+Explore
+@ivoandrade66
+ffborelli /
+curso-brq-java-2022-09-05
+Public
+
+Code
+Issues
+Pull requests
+Actions
+Projects
+Security
+
+    Insights
+
+curso-brq-java-2022-09-05/ms01/src/main/java/com/brq/ms01/controllers/UsuarioController.java
+@ffborelli
+ffborelli feat: refatoração service
+Latest commit 4fc7a37 2 days ago
+History
+1 contributor
+91 lines (66 sloc) 2.3 KB
 package com.brq.ms01.controllers;
 
 import com.brq.ms01.models.UsuarioModel;
+import com.brq.ms01.services.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
 
-// commenter
+// comentário
 
 /*
- * commenter
+ * comentário
  * */
 
 @RestController
 public class UsuarioController {
 
-    // ESTE ARRAYLIST É DIDÁTICO, POIS ESTÁ SIMULANDO UM BANCO DE DADOS
-    private int counter = 1;
-    private ArrayList<UsuarioModel> usuarios = new ArrayList<>();
+
+
+    // private UsuarioService usuService = new UsuarioService();
+    // @Autowired é importante pois permite que o Spring "instancie" o objeto do tipo UsuarioService
+    @Autowired
+    private UsuarioService usuService;
+
 
     /*
     * o @GetMapping permite associoar o verbo GET com a rota /usuarios
@@ -25,46 +58,78 @@ public class UsuarioController {
     @GetMapping("usuarios")
     public ArrayList<UsuarioModel> getAllUsuarios(){
 
-//        UsuarioModel u = new UsuarioModel();
-//        u.setId(1);
-//        u.setNome("Manoel");
-//        u.setEmail("manoel@gmail.com");
+        // ISSO É VERDADEIRO?????
+        /*
+        * EM JAVA, NÃÃÃÃÃÃÃOOOO SE COMPARA STRING COM OPERADOR ==
+        * */
+//        if ("aaa" == "aaa"){
 //
-//        usuarios.add(u);
+//        }
+//        if ("aaa".equalsIgnoreCase("aaa")){
+//
+//        }
+        usuService.mostrarMensagemService();
+        //return usuarios;
+//        ArrayList<UsuarioModel> usuarios = usuService.getAllUsuarios();
+//          MANIPULAR AQUI
+//        return usuarios;
 
-        return usuarios;
+        return usuService.getAllUsuarios();
     }
 
     @PostMapping("usuarios")
     public UsuarioModel create(@RequestBody UsuarioModel usuario){
-    //public String create(@RequestBody UsuarioModel usuario){
-        //System.out.println(usuario);
-        usuario.setId( counter );
-        usuarios.add(usuario);
-        counter++;
-        System.out.println(usuario);
+//        UsuarioModel u = usuService.create(usuario);
+//        return u;
+        return usuService.create(usuario);
 
-        //usuarios.add(usuario);
-        //return "POST Usuários";
-        return usuario;
-    }
+    } // create
 
-    // /usuarios/1 --> o valor do id vai ser 1
+    // /usuarios/1 -> o valor do id vai ser 1
+
     @PatchMapping("usuarios/{id}")
     public UsuarioModel update(@RequestBody UsuarioModel usuarioBody,
-                               @PathVariable int id ){
-        // como achar o usuário a ser alterado?
-        for ( int i = 0; i <  usuarios.size(); i++ ){
-            if (usuarios.get(i).getId() == id){
-                // achamos o usuário a ser alterado
-                usuarios.get(i).setNome( usuarioBody.getNome() );
-                usuarios.get(i).setEmail( usuarioBody.getEmail() );
+                                @PathVariable int id ){
+        //        UsuarioModel u = usuService.update(id, usuarioBody);
+        //        return u;
+        return usuService.update(id, usuarioBody);
+    } // update()
 
-                return usuarios.get(i);
-            }//if
+    @DeleteMapping("usuarios/{id}")
+    public String delete(@PathVariable int id){
 
-        }// for
+//        String response = usuService.delete(id);
+//        return response;
 
-        return null;
-    }// update()
-}
+        return usuService.delete(id);
+    } // delete
+
+    // busca por apenas um usuário (pelo id)
+    @GetMapping("usuarios/{id}")
+    public UsuarioModel getOne(@PathVariable int id){
+
+//        UsuarioModel u = usuService.getOne(id);
+//        return u;
+
+        return usuService.getOne(id);
+
+    } // getOne
+
+} // UsuarioController
+Footer
+© 2022 GitHub, Inc.
+Footer navigation
+
+    Terms
+    Privacy
+    Security
+    Status
+    Docs
+    Contact GitHub
+    Pricing
+    API
+    Training
+    Blog
+    About
+
+curso-brq-java-2022-09-05/UsuarioController.java at docker · ffborelli/curso-brq-java-2022-09-05
