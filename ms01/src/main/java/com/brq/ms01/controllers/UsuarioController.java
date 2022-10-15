@@ -1,30 +1,3 @@
-
-Skip to content
-Pull requests
-Issues
-Marketplace
-Explore
-@ivoandrade66
-ffborelli /
-curso-brq-java-2022-09-05
-Public
-
-Code
-Issues
-Pull requests
-Actions
-Projects
-Security
-
-    Insights
-
-curso-brq-java-2022-09-05/ms01/src/main/java/com/brq/ms01/controllers/UsuarioController.java
-@ffborelli
-ffborelli feat: refatoração service
-Latest commit 4fc7a37 2 days ago
-History
-1 contributor
-91 lines (66 sloc) 2.3 KB
 package com.brq.ms01.controllers;
 
 import com.brq.ms01.models.UsuarioModel;
@@ -116,20 +89,3 @@ public class UsuarioController {
     } // getOne
 
 } // UsuarioController
-Footer
-© 2022 GitHub, Inc.
-Footer navigation
-
-    Terms
-    Privacy
-    Security
-    Status
-    Docs
-    Contact GitHub
-    Pricing
-    API
-    Training
-    Blog
-    About
-
-curso-brq-java-2022-09-05/UsuarioController.java at docker · ffborelli/curso-brq-java-2022-09-05
