@@ -4,26 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /*
 * @Data, que faz o papel dos Getters, Setters e toString()
-* @Entity "diz" que é a classe UsuarioModel vai ser mapeada com alguma tabela do banco de dados
-* @Table especifica o nome da tabela que essa classe vai usar
-* @Column especifica o nome da coluna que essa classe vai usar
-* *
-*  */
+* @Entity "diz" que a classe UsuarioModel vai ser mapeada com uma tabela no banco de dados
+* @Table especifica o nome da tabela que esta classe vai mapear
+* */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "usuarios")
-
 public class UsuarioModel {
+
+    // UUID -> é um conjunto de letras e números para identificar unicamente um registro
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
     private int id;
 
@@ -32,5 +29,4 @@ public class UsuarioModel {
 
     @Column(name = "email_user")
     private String email;
-
 }

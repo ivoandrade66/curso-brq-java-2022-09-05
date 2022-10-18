@@ -61,4 +61,30 @@ O Lombok é um boilerplate que gera código repetitivo em tempo de execução.
 
 Em geral geramos os construtores, getters, setters e  o método toString()
 
-O Lombok é usado com anotações @Data, que faz o papel dos Getters, Setters e toString
+O Lombok é usado com anotações: 
+
+- @Data: faz o papel dos Getters, Setters e toString
+- @AllArgsConstructor : criar o construtor com todos os atributos da classe
+- @NoArgsConstructor : cria o construtor vazio
+- @RequestBody permite capturar os dados vindo do body da requisição e converter para um objeto JAVA
+
+
+# ORM 
+
+Object Relational Mapping : mapeamento objeto (JAVA) relacional (Banco SQL)
+
+Existem vários ORMs, o que mais se destaca é o Hibernate
+
+O Hibernate é uma ferramente que permite usar objetos JAVA e manipular os daos em um
+banco de dados
+
+# Algumas anotações
+
+@Autowired
+@Services
+@Repositories
+@Entity
+@Table
+@Column
+@RestCotroller
+@GeneratedValue

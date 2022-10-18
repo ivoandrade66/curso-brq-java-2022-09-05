@@ -1,11 +1,13 @@
 package com.brq.ms01.services;
 
 import com.brq.ms01.models.UsuarioModel;
-import com.brq.ms01.repositores.UsuarioRepository;
+import com.brq.ms01.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 /*
 * A camada Service é responsável por armazenar as regras de negócio da aplicação
@@ -18,24 +20,33 @@ public class UsuarioService {
     private int counter = 1;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuRepository;
 
     public void mostrarMensagemService(){
         System.out.println("Mensagem do serviço");
     }
 
-    public ArrayList<UsuarioModel> getAllUsuarios(){
-        return usuarios;
+    public List<UsuarioModel> getAllUsuarios(){
+
+        // a repository vai executar : SELECT * FROM usuarios;
+        List<UsuarioModel> list = usuRepository.findAll();
+
+        return list;
+        //return usuarios;
     }
 
     public UsuarioModel create(UsuarioModel usuario){
 
-        usuario.setId( counter );
-        usuarios.add(usuario);
-        counter++;
+        // usuario.setId( counter );
+        //usuarios.add(usuario);
+        //counter++;
 
+        // INSERT INTO usuarios (name_user, email_user ) VALUEs()....
+        UsuarioModel usuarioSalvo = usuRepository.save( usuario );
+        // return  usuRepository.save( usuario );
         // return "POST Usuários";
-        return usuario;
+        //return usuario;
+        return usuarioSalvo;
     }
 
     public UsuarioModel update(int id, UsuarioModel usuarioBody){
@@ -58,14 +69,17 @@ public class UsuarioService {
 //        for (UsuarioModel usuarioLocal: usuarios) {
 //            usuarios.remove(usuarioLocal);
 //        }
-        for (int i = 0; i < usuarios.size(); i++){
-            // se achar o usuário, então delete do arraylist
-            if (usuarios.get(i).getId() == id){
-                usuarios.remove(i);
-                return "Usuário delatado com sucesso!";
-            } // if
-        } // for
-        return "Usuário não encontrado";
+//        for (int i = 0; i < usuarios.size(); i++){
+//            // se achar o usuário, então delete do arraylist
+//            if (usuarios.get(i).getId() == id){
+//                usuarios.remove(i);
+//                return "Usuário delatado com sucesso!";
+//            } // if
+//        } // for
+//        return "Usuário não encontrado";
+
+        usuRepository.deleteById(id);
+        return "Usuário delatado com sucesso!";
     }
 
     public UsuarioModel getOne(int id){
