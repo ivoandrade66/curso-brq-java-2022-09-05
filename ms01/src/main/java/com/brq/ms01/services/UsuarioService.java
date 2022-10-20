@@ -1,5 +1,6 @@
 package com.brq.ms01.services;
 
+import com.brq.ms01.dtos.UsuarioDTO;
 import com.brq.ms01.models.UsuarioModel;
 import com.brq.ms01.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,8 @@ import java.util.Optional;
 
 
 /*
- * A camada Service é responsável por armazenar as regras de negócio da aplicação
- * */
+* A camada Service é responsável por armazenar as regras de negócio da aplicação
+* */
 @Service
 public class UsuarioService {
 
@@ -36,14 +37,22 @@ public class UsuarioService {
         //return usuarios;
     }
 
-    public UsuarioModel create(UsuarioModel usuario){
+    public UsuarioModel create(UsuarioDTO usuario){
 
         // usuario.setId( counter );
         //usuarios.add(usuario);
         //counter++;
 
+        // TEMOS QUE CONVERTER UM DTO PARA UM MODEL
+        // jeito Fabrizio (Burro)
+//        UsuarioModel usuarioDTOtoModel = new UsuarioModel();
+//        usuarioDTOtoModel.setId( usuario.getId() );
+//        usuarioDTOtoModel.setNome(usuario.getNome());
+//        usuarioDTOtoModel.setTelefone(usuario.getTelefone());
+//        usuarioDTOtoModel.setEmail(usuario.getEmail());
+
         // INSERT INTO usuarios (name_user, email_user ) VALUEs()....
-        UsuarioModel usuarioSalvo = usuRepository.save( usuario );
+        UsuarioModel usuarioSalvo = usuRepository.save( usuario.toModel() );
         // return  usuRepository.save( usuario );
         // return "POST Usuários";
         //return usuario;
@@ -55,9 +64,10 @@ public class UsuarioService {
         UsuarioModel usuario = usuRepository.findById(id)
                 .orElseThrow( () -> new RuntimeException("Usuário não localizado") );
 
+
         usuario.setEmail( usuarioBody.getEmail() );
         usuario.setNome( usuarioBody.getNome() );
-        usuario.setTelefone( usuarioBody.getTelefone());
+        usuario.setTelefone( usuarioBody.getTelefone() );
 
         return usuRepository.save(usuario);
 
@@ -117,7 +127,7 @@ public class UsuarioService {
     public UsuarioModel getOne(int id){
 
         return usuRepository.findById(id)
-                .orElseThrow( () -> new RuntimeException("Usuário não localizado"));
+                    .orElseThrow( () -> new RuntimeException("Usuário não localizado"));
 //        Optional<UsuarioModel> usuarioOptional = usuRepository.findById(id);
 //
 //        if (usuarioOptional.isPresent()){
