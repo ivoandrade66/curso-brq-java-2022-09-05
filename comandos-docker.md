@@ -181,3 +181,4 @@ Para criar nossa própria imagem:
 ```
     cd nginx
     docker build -t brq-nginx:latest .
+```

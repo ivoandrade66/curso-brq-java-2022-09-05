@@ -67,3 +67,4 @@ Exemplo:
 5. DELETE  (DELETE)  /usuarios/{id_do_usuario}
 6. GET /usuarios/{id_do_usuario}/nome/{nome_do_usuario}
 
+
