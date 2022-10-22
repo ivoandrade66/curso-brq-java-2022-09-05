@@ -31,7 +31,7 @@ public class UsuarioController {
     * o @GetMapping permite associoar o verbo GET com a rota /usuarios
     * */
     @GetMapping("usuarios")
-    public List<UsuarioModel> getAllUsuarios(){
+    public List<UsuarioDTO> getAllUsuarios(){
 
         // ISSO É VERDADEIRO?????
         /*
@@ -63,7 +63,7 @@ public class UsuarioController {
     // /usuarios/1 -> o valor do id vai ser 1
 
     @PatchMapping("usuarios/{id}")
-    public UsuarioModel update(@RequestBody UsuarioModel usuarioBody,
+    public UsuarioDTO update(@RequestBody UsuarioDTO usuarioBody,
                                 @PathVariable int id ){
         //        UsuarioModel u = usuService.update(id, usuarioBody);
         //        return u;
@@ -81,7 +81,7 @@ public class UsuarioController {
 
     // busca por apenas um usuário (pelo id)
     @GetMapping("usuarios/{id}")
-    public UsuarioModel getOne(@PathVariable int id){
+    public UsuarioDTO getOne(@PathVariable int id){
 
 //        UsuarioModel u = usuService.getOne(id);
 //        return u;

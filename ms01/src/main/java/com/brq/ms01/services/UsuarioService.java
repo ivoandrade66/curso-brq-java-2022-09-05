@@ -28,12 +28,21 @@ public class UsuarioService {
         System.out.println("Mensagem do serviço");
     }
 
-    public List<UsuarioModel> getAllUsuarios(){
+    public List<UsuarioDTO> getAllUsuarios(){
 
         // a repository vai executar : SELECT * FROM usuarios;
         List<UsuarioModel> list = usuRepository.findAll();
 
-        return list;
+        // como converter uma lista de model para lista de dto
+
+        List<UsuarioDTO> listDTO = new ArrayList<>();
+
+        // tipo da variavel
+        for (UsuarioModel balde  : list) {
+            listDTO.add( balde.toDTO() );
+        }
+
+        return listDTO;
         //return usuarios;
     }
 
@@ -59,7 +68,7 @@ public class UsuarioService {
         return usuarioSalvo.toDTO();
     }
 
-    public UsuarioModel update(int id, UsuarioModel usuarioBody)  {
+    public UsuarioDTO update(int id, UsuarioDTO usuarioBody)  {
 
         UsuarioModel usuario = usuRepository.findById(id)
                 .orElseThrow( () -> new RuntimeException("Usuário não localizado") );
@@ -69,7 +78,7 @@ public class UsuarioService {
         usuario.setNome( usuarioBody.getNome() );
         usuario.setTelefone( usuarioBody.getTelefone() );
 
-        return usuRepository.save(usuario);
+        return usuRepository.save(usuario).toDTO();
 
 
 //        // ver se os dados existem
@@ -124,10 +133,12 @@ public class UsuarioService {
         return "Usuário delatado com sucesso!";
     }
 
-    public UsuarioModel getOne(int id){
+    public UsuarioDTO getOne(int id){
 
-        return usuRepository.findById(id)
+        UsuarioModel usuario = usuRepository.findById(id)
                     .orElseThrow( () -> new RuntimeException("Usuário não localizado"));
+
+        return usuario.toDTO();
 //        Optional<UsuarioModel> usuarioOptional = usuRepository.findById(id);
 //
 //        if (usuarioOptional.isPresent()){

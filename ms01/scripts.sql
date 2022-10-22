@@ -31,4 +31,3 @@ CREATE INDEX usuarios_idade
 
 ALTER TABLE usuarios
 	DROP COLUMN idade;
-
