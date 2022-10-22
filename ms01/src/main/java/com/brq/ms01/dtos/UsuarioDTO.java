@@ -6,15 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 
-import javax.validation.constraints.NotNull;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsuarioDTO {
 
     private int id;
-    @NotNull
     private String nome;
     private String email;
     private String telefone;

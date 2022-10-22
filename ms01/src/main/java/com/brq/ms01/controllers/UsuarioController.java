@@ -56,7 +56,10 @@ public class UsuarioController {
     public UsuarioDTO create(@RequestBody UsuarioDTO usuario){
 //        UsuarioModel u = usuService.create(usuario);
 //        return u;
-        return usuService.create(usuario);
+        // return usuService.create(usuario);
+        var t = usuService.create(usuario);
+
+        return t;
 
     } // create
 

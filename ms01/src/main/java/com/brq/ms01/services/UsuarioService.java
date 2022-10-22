@@ -33,12 +33,12 @@ public class UsuarioService {
         // a repository vai executar : SELECT * FROM usuarios;
         List<UsuarioModel> list = usuRepository.findAll();
 
-        // como converter uma lista de model para lista de dto
+        // COMO CONVERTER UMA LISTA DE MODEL PARA LISTA DE DTO?
 
         List<UsuarioDTO> listDTO = new ArrayList<>();
 
-        // tipo da variavel
-        for (UsuarioModel balde  : list) {
+        // Tipo da variável -
+        for (UsuarioModel balde : list) {
             listDTO.add( balde.toDTO() );
         }
 
