@@ -2,6 +2,7 @@ package com.brq.ms01.exceptions;
 
 import lombok.Builder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,7 +21,7 @@ public class ResourceExceptionHandler {
     /* gostaria que o método abaixo trate exceções
         do tipo de validação de dados*/
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public void methodValidationHandler(
+    public ResponseEntity<StandardError> methodValidationHandler(
             MethodArgumentNotValidException exception,
             HttpServletRequest request
     ){
@@ -34,9 +35,11 @@ public class ResourceExceptionHandler {
                 .builder()
                 .timestamp(System.currentTimeMillis())
                 .status(HttpStatus.BAD_REQUEST.value())
-                .error(exception.getMessage())
-                .message()
-                .path("")
+                .error("Validation Error")
+                .message(exception.getMessage())
+                .path(request.getRequestURI())
                 .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
     }
 }
