@@ -34,14 +34,24 @@ public class ResourceExceptionHandler {
 //        standardError.setPath("");
 
         // @Builder
-        StandardError standardError = StandardError
-                .builder()
-                .timestamp(new Date( System.currentTimeMillis()))
-                .status(HttpStatus.BAD_REQUEST.value())
-                .error("Validation Error")
-                .message(exception.getMessage())
-                .path(request.getRequestURI())
-                .build();
+//        StandardError standardError = StandardError
+//                .builder()
+//                .timestamp(new Date( System.currentTimeMillis()))
+//                .status(HttpStatus.BAD_REQUEST.value())
+//                .error("Validation Error")
+//                .message(exception.getMessage())
+//                .path(request.getRequestURI())
+//                .build();
+//
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
+
+        ValidationError validationError = new ValidationError();
+
+        validationError.setTimestamp(new Date( System.currentTimeMillis() ));
+        validationError.setStatus(HttpStatus.BAD_REQUEST.value());
+        validationError.setError("Validation Error");
+        validationError.setMessage(exception.getMessage());
+        validationError.setPath(request.getRequestURI());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
     }
