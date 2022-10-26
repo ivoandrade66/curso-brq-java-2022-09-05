@@ -13,10 +13,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class StandardError {
 
-    private Date timestamp;
-    private Integer status;
-    private String error;
-    private String message;
-    private String path;
+    protected Date timestamp;
+    protected Integer status;
+    protected String error;
+    protected String message;
+    protected String path;
 }
-
