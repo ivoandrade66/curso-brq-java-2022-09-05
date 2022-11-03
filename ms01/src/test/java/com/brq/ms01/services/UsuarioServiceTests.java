@@ -9,11 +9,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +21,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 /*
-* @SpringBootTest: fornece um jeito de iniciar o Spring Boot
-* para utilizar os testes unitários
-* */
+ * @SpringBootTest: fornece um jeito de iniciar o Spring Boot
+ * para utilizar os testes unitários
+ * */
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -188,7 +187,7 @@ public class UsuarioServiceTests {
         body.setTelefone("telefone");
 
         /* quando o findById for chamado, retornaremos
-        * um optional vazio*/
+         * um optional vazio*/
         when( usuarioRepository.findById(id) )
                 .thenReturn(optional);
 
@@ -282,5 +281,75 @@ public class UsuarioServiceTests {
         // verificar se vai estourar exceção
         assertThrows( RuntimeException.class ,
                 () -> usuarioService.getOne(id) );
+    }
+
+    @Test
+    void fetchUsuariosByNomeTest(){
+
+        String nomeBusca = "aaa";
+
+        UsuarioModel usuario = new UsuarioModel();
+        usuario.setEmail("email");
+        usuario.setTelefone("telefone");
+        usuario.setNome("nome");
+
+//        List<UsuarioModel> list = new ArrayList<>();
+//        list.add(usuarioModel);
+//        list.add(usuarioModel);
+
+        List<UsuarioModel> listUsuariosMockados = Arrays.asList( usuario );
+
+        // mockando a camada repository
+
+        when(usuarioRepository.fetchByNomeLikeNativeQuery(nomeBusca))
+                .thenReturn(listUsuariosMockados);
+
+        // chamar o método a ser testado
+        List<UsuarioDTO> dtos = usuarioService.fetchUsuariosByNome(nomeBusca);
+
+        //verificar se o retorno é o esperado
+
+        assertThat( dtos.get(0).getTelefone() )
+                .isEqualTo(listUsuariosMockados.get(0).getTelefone());
+
+        assertThat( dtos.get(0).getEmail() )
+                .isEqualTo(listUsuariosMockados.get(0).getEmail());
+
+        assertThat( dtos.get(0).getNome() )
+                .isEqualTo(listUsuariosMockados.get(0).getNome());
+
+        assertThat( dtos.isEmpty() ).isEqualTo(false);
+    }
+
+    @Test
+    void fetchUsuariosByNomeAndEmailTest(){
+
+        String nomeBusca = "nome-busca";
+        String emailBusca = "email-busca";
+
+        UsuarioModel usuario = new UsuarioModel();
+        usuario.setEmail("email");
+        usuario.setTelefone("telefone");
+        usuario.setNome("nome");
+
+        List<UsuarioModel> listUsuariosMockados = Arrays.asList( usuario );
+
+        when(usuarioRepository.findByNomeContainsAndEmailContains(nomeBusca, emailBusca))
+                .thenReturn(listUsuariosMockados);
+
+        // chamar o método a ser testado
+        List<UsuarioDTO> dtos = usuarioService.fetchUsuariosByNomeAndEmail(nomeBusca, emailBusca);
+
+        // verificar se o método está correto
+        assertThat( dtos.get(0).getTelefone() )
+                .isEqualTo(listUsuariosMockados.get(0).getTelefone());
+
+        assertThat( dtos.get(0).getEmail() )
+                .isEqualTo(listUsuariosMockados.get(0).getEmail());
+
+        assertThat( dtos.get(0).getNome() )
+                .isEqualTo(listUsuariosMockados.get(0).getNome());
+
+        assertThat( dtos.isEmpty() ).isEqualTo(false);
     }
 }
