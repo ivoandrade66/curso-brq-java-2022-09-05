@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
@@ -60,10 +61,7 @@ public class UsuarioControllerTests {
     @Test
     void createWhenSuccess(){
 
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setNome("nome");
-        usuarioDTO.setEmail("email");
-        usuarioDTO.setTelefone("(11) 98273-3817");
+        UsuarioDTO usuarioDTO = createValidUsuarioDTO();
 
         // mockando a service
         when(service.create(usuarioDTO))
@@ -76,4 +74,81 @@ public class UsuarioControllerTests {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(usuarioDTO);
     }
+
+//    @Test
+//    void createWhenFail(){
+//
+//        UsuarioDTO usuarioDTO = new UsuarioDTO();
+//        usuarioDTO.setNome("a");
+//        usuarioDTO.setEmail("email");
+//        usuarioDTO.setTelefone("(11)982733817");
+//
+//        assertThrows(MethodArgumentNotValidException.class ,
+//                () -> controller.create(usuarioDTO) );
+//    }
+
+    @Test
+    void updateTest(){
+
+        int id = 1;
+        UsuarioDTO usuarioDTO = createValidUsuarioDTO();
+
+        when(service.update(id, usuarioDTO))
+                .thenReturn(usuarioDTO);
+
+        // testar método de interesse
+        final var response =
+                controller.update(usuarioDTO, id);
+
+        // verificar a resposta
+        assertThat(response.getStatusCode())
+                .isEqualTo(HttpStatus.OK);
+
+        assertThat(response.getBody())
+                .isEqualTo(usuarioDTO);
+    }
+
+    @Test
+    void deleteTestWhenSuccessTest(){
+        int id = 1;
+
+        when(service.delete(id))
+                .thenReturn("texto");
+
+        // testar método
+
+        final var response = controller.delete(id);
+
+        assertThat(response.getStatusCode())
+                .isEqualTo(HttpStatus.OK);
+
+        assertThat(response.getBody()).isEqualTo("texto");
+    }
+
+    @Test
+    void deleteWhenFailTest(){
+        // dado que
+        int id = 1;
+
+        // quando
+        when(service.delete(id))
+                .thenThrow(new RuntimeException("exception"));
+
+        // então (teste do método)
+        assertThrows( RuntimeException.class,
+                () -> service.delete(id));
+    }
+
+
+    private UsuarioDTO createValidUsuarioDTO(){
+
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setNome("nome");
+        usuarioDTO.setEmail("email");
+        usuarioDTO.setTelefone("(11) 98273-3817");
+
+        return usuarioDTO;
+    }
+
+
 }
