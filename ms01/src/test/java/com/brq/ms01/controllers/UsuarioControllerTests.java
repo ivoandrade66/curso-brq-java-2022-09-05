@@ -139,6 +139,97 @@ public class UsuarioControllerTests {
                 () -> service.delete(id));
     }
 
+    @Test
+    void getOneWhenSucess(){
+        //dado que
+        int id = 1;
+
+        final var usuarioDTO
+                = createValidUsuarioDTO();
+
+        //quando
+        when(service.getOne(id))
+                .thenReturn(usuarioDTO);
+
+        // então
+        final var response
+                = controller.getOne(id);
+
+        // verificar o resultado
+        assertThat( response.getStatusCode() )
+                .isEqualTo(HttpStatus.OK);
+
+        assertThat( response.getBody() )
+                .isEqualTo( usuarioDTO );
+    }
+
+    @Test
+    void getOneWhenFail(){
+
+        //dado que
+        int id = 1;
+
+        // mockito
+        // quando
+        when(service.getOne(id))
+                .thenThrow( new RuntimeException("ex"));
+
+        // então
+        assertThrows( RuntimeException.class ,
+                ()-> controller.getOne(id) ) ;
+    }
+
+    @Test
+    void fetchUsuariosByNomeTest(){
+
+        // dado que
+        var nomeBusca = "nome";
+
+        final var usuarioDTO = createValidUsuarioDTO();
+        final var listUsuarios = Arrays.asList(usuarioDTO);
+//      final var listUsuarios = Arrays.asList( createValidUsuarioDTO() );
+
+        // quando
+        when(service.fetchUsuariosByNome(nomeBusca))
+                .thenReturn(listUsuarios);
+
+        // então
+        final var response
+                = controller.fetchUsuariosByNome(nomeBusca);
+
+        // validar a reposta
+
+        assertThat( response.getStatusCode())
+                .isEqualTo(HttpStatus.OK);
+        assertThat( response.getBody())
+                .isEqualTo( response.getBody() );
+
+    }
+
+    @Test
+    void fetchUsuariosByNomeAndEmailTest(){
+
+        // dado que
+        final var nomeBusca = "nome";
+        final var emailBusca = "email";
+
+        final var listUsuarios
+                = Arrays.asList( createValidUsuarioDTO() );
+
+        // quando
+        when(service.fetchUsuariosByNomeAndEmail(nomeBusca, emailBusca))
+                .thenReturn(listUsuarios);
+
+        // então
+        final var response = controller.fetchUsuariosByNomeAndEmail(nomeBusca, emailBusca);
+
+        // verificar a resposta
+        assertThat(response.getStatusCode())
+                .isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody())
+                .isEqualTo(listUsuarios);
+    }
+
 
     private UsuarioDTO createValidUsuarioDTO(){
 
