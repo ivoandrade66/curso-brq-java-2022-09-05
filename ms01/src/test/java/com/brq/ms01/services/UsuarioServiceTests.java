@@ -2,6 +2,7 @@ package com.brq.ms01.services;
 
 import com.brq.ms01.dtos.UsuarioDTO;
 import com.brq.ms01.exceptions.DataCreateException;
+import com.brq.ms01.models.EnderecoModel;
 import com.brq.ms01.models.UsuarioModel;
 import com.brq.ms01.repositories.UsuarioRepository;
 import org.junit.jupiter.api.Test;
@@ -11,19 +12,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 /*
- * @SpringBootTest: fornece um jeito de iniciar o Spring Boot
- * para utilizar os testes unitários
- * */
+* @SpringBootTest: fornece um jeito de iniciar o Spring Boot
+* para utilizar os testes unitários
+* */
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -45,6 +48,11 @@ public class UsuarioServiceTests {
         usuarioModel.setId(1);
         usuarioModel.setNome("Teste");
         usuarioModel.setTelefone("Meu telefone");
+
+//        EnderecoModel end = new EnderecoModel();
+//        end.setRua("rua");
+//
+//        usuarioModel.setEndereco(end);
 
         listMock.add(usuarioModel);
 
@@ -187,7 +195,7 @@ public class UsuarioServiceTests {
         body.setTelefone("telefone");
 
         /* quando o findById for chamado, retornaremos
-         * um optional vazio*/
+        * um optional vazio*/
         when( usuarioRepository.findById(id) )
                 .thenReturn(optional);
 
@@ -351,5 +359,45 @@ public class UsuarioServiceTests {
                 .isEqualTo(listUsuariosMockados.get(0).getNome());
 
         assertThat( dtos.isEmpty() ).isEqualTo(false);
+    }
+
+    @Test
+    void fetchUsuariosByNomeAndEmailAndEnderecoTest(){
+
+        // dado que
+        String nomeBusca = "nome-busca";
+        String emailBusca = "email-busca";
+        String enderecoBusca = "endereco-busca";
+
+        UsuarioModel usuario = new UsuarioModel();
+        usuario.setEmail("email");
+        usuario.setTelefone("telefone");
+        usuario.setNome("nome");
+
+        List<UsuarioModel> listUsuariosMockados = Arrays.asList( usuario );
+
+        when(usuarioRepository.findByNomeContainsAndEmailContainsAndEnderecoRuaContains(nomeBusca, emailBusca,enderecoBusca ))
+                .thenReturn(listUsuariosMockados);
+
+        // chamar o método a ser testado
+        List<UsuarioDTO> dtos = usuarioService.fetchUsuariosByNomeAndEmailAndEndereco(nomeBusca, emailBusca, enderecoBusca);
+
+        // verificar se o método está correto
+        assertThat( dtos.get(0).getTelefone() )
+                .isEqualTo(listUsuariosMockados.get(0).getTelefone());
+
+        assertThat( dtos.get(0).getEmail() )
+                .isEqualTo(listUsuariosMockados.get(0).getEmail());
+
+        assertThat( dtos.get(0).getNome() )
+                .isEqualTo(listUsuariosMockados.get(0).getNome());
+
+        assertThat( dtos.isEmpty() ).isEqualTo(false);
+
+    }
+
+    @Test
+    void mostrarMensagemServiceTest(){
+        assertDoesNotThrow( () -> usuarioService.mostrarMensagemService() );
     }
 }

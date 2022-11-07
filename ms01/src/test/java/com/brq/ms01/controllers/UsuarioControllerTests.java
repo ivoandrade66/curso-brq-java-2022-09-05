@@ -98,7 +98,7 @@ public class UsuarioControllerTests {
 
         // testar método de interesse
         final var response =
-                controller.update(usuarioDTO, id);
+                    controller.update(usuarioDTO, id);
 
         // verificar a resposta
         assertThat(response.getStatusCode())

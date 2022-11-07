@@ -10,26 +10,24 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 
 /*
 * A camada Service é responsável por armazenar as regras de negócio da aplicação
 * */
 @Slf4j
 @Service
-public class UsuarioService {
+public class UsuarioService implements IUsuarioService {
 
     // ESTE ARRAYLIST É DIDÁTICO, POIS ESTÁ SIMULANDO UM BANCO DE DADOS
-    private ArrayList<UsuarioModel> usuarios = new ArrayList<>();
-    private int counter = 1;
+//    private ArrayList<UsuarioModel> usuarios = new ArrayList<>();
+//    private int counter = 1;
 
     @Autowired
     private UsuarioRepository usuRepository;
 
     public void mostrarMensagemService(){
-        System.out.println("Mensagem do serviço");
+        //System.out.println("Mensagem do serviço");
+        log.info("Mensagem do serviço");
     }
 
     public List<UsuarioDTO> getAllUsuarios(){
@@ -177,8 +175,13 @@ public class UsuarioService {
 //        } // for
 //        return "Usuário não encontrado";
 
-        usuRepository.findById(id)
+        final var usuario = usuRepository.findById(id)
                 .orElseThrow( () -> new RuntimeException("Usuário não localizado") );
+
+        //log.info("deletando usuário id: " + usuario.getId() + " com sucesso, email " + usuario.getEmail()  );
+
+        log.info("deletando usuário id: {} com sucesso, email : {}",
+                    usuario.getId(), usuario.getEmail() );
 
         usuRepository.deleteById(id);
         return "Usuário delatado com sucesso!";
