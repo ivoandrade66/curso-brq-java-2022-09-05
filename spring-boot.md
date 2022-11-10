@@ -143,8 +143,8 @@ A Injeção de Dependência é uma técnica de desenvolvimento utilizada para ev
 - **GenerationType.IDENTITY:** Informamos ao provedor de persistência que os valores a serem atribuídos ao identificador único serão gerados pela coluna de auto incremento do banco de dados. Assim, um valor para o identificador é gerado para cada registro inserido no banco. Alguns bancos de dados podem não suportar essa opção. 
 - **@Id:** é utilizada para informar ao JPA qual campo/atributo de uma entidade estará relacionado à chave primária da respectiva tabela no banco de dados. 
 - **@ControllerAdvice**: permite manipular exceções de forma global. Para cada tipo de exceção, podemos manipular desde o status até a mensagem de retorno.
-
-
+- **@Slf4j**: é uma abstração JAVA para criar **logging** das aplicações de uma forma simples 
+- **@Value**:  anotação que permite injetar valores em campos (variáveis JAVA) dentro dos beans gerenciados pelo Spring (@Component, @Service, @Repository, @RestController). 
 # DTO
 
 Data Transfer Object **(DTO)** ou simplesmente Transfer Object é um padrão de projetos bastante usado em Java para o transporte de dados entre diferentes componentes de um sistema, diferentes instâncias ou processos de um sistema distribuído ou diferentes sistemas via serialização.
@@ -235,7 +235,36 @@ int a, int b : parametros
 - Na entidade (tabela de dados) que possui a chave estrangeira, colocar a anotação @JoinTable
 - Na outra entidade, usar o mapped by
 
+# @Component
+
+Antes de podermos entender o valor de **@Component**, primeiro precisamos entender um pouco sobre o Spring ApplicationContext.
+
+Spring ApplicationContext é onde Spring mantém instâncias de objetos que ele identificou para serem gerenciados e distribuídos automaticamente. Estes são chamados de **BEANS** (@Beans).
+
+O gerenciamento do bean e a injeção de dependência são alguns dos principais recursos do Spring.
+
+Usando o princípio de Inversão de Controle, o Spring coleta as instâncias do bean de nosso aplicativo e os usam no momento apropriado. Podemos mostrar as dependências dos bean para Spring sem precisar lidar com a configuração e instanciação desses objetos.
+
+A capacidade de usar anotações como **@Autowired** para injetar beans gerenciados pelo Spring em nosso aplicativo é uma força motriz para a criação do nosso código no Spring.
 
 
+- @Component
 
+@Component é uma anotação que permite o Spring detectar automaticamente nossos beans personalizados.
+
+Em outras palavras, sem ter que escrever nenhum código explícito, o Spring irá:
+
+- Examinar nosso aplicativo para classes anotadas com @Component
+- Instanciar e injetae quaisquer dependências especificadas neles (com classes dos objetos @Component)
+- Injetar os objetos na nossa aplicação sempre que necessário
+
+# Apache Camel
+
+- A mensagem contém dados que serão transferidos para uma rota. Cada mensagem tem um identificador exclusivo e é construído a partir de um corpo, cabeçalhos e anexos.
+
+- **Exchange** é criado quando uma mensagem é recebida por um consumidor durante o processo de roteamento. Este permite capturar dados da mensagem trocada entre a rota.
+
+- **Endpoint** é um canal através do qual o sistema pode receber ou enviar uma mensagem. Ele pode se referir a um URI de serviço da Web, URI de fila, arquivo, endereço de e-mail, etc.
+
+- **Processor** é uma interface Java que é usada para adicionar lógica de integração personalizada a uma rota. Ele contém um único método de processo usado para pré-formar a lógica de negócios personalizada em uma mensagem recebida por um consumidor.
 
