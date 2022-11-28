@@ -9,7 +9,11 @@
 ### Rodar container do Redis
 
 ```
-    docker run --name redis -d -p 6379:6379 -it redis:latest
+    docker network create -d bridge redis-network
+
+    docker run --name redis -d -p 6379:6379 -it --network=redis-network redis:latest
+    
+    docker run --name redis-commander -d --env REDIS_HOSTS=redis -p 8081:8081 --network=redis-network rediscommander/redis-commander:latest
 ```
 
 ### Entrar dentro do container do Redis
@@ -117,10 +121,51 @@ Em outro terminal:
     PUBLISH redisChat "Redis is a great caching technique"  
 ```
 
+# Redis Hash
 
-docker run --name redis-commander -d --env REDIS_HOSTS=redis -p 8081:8081 rediscommander/redis-commander:latest
+Baseado em:
 
+```
+    https://www.digitalocean.com/community/tutorials/how-to-manage-hashes-in-redis
+```
 
+O Redis Hash é um tipo de dados que representa um mapeamento entre um campo de string e um valor de string. Os hashes podem conter muitos pares de valores de campos e são projetados para não ocupar muito espaço, tornando-os ideais para representar objetos de dados.
+
+Para criar um hash, execute o comando hset. Este comando aceita o nome da chave de hash, a string de campo e a string de valor correspondente como argumentos:
+
+```
+    hset poet:Verlaine nationality French
+```
+
+Você pode determinar se existe um campo para um determinado hash com o comando hexists:
+
+```
+    hexists poet:Verlaine nationality
+```
+
+Para retornar o valor de um campo, execute o comando hget seguido da chave hash e do campo cujo valor você deseja recuperar
+
+```
+    hget poet:Verlaine nationality
+```
+
+Para obter uma lista de todos os campos contidos em um determinado hash, execute o comando hkeys:
+
+```
+    hkeys poet:Verlaine
+```
+
+Por outro lado, execute hvals para recuperar uma lista de valores contidos em um hash
+
+```
+    hvals poet:Verlaine
+```
+
+Para retornar uma lista de todos os campos mantidos por um hash e seus valores associados, execute hgetall:
+
+```
+    hgetall poet:Verlaine
+```
 
 
 
